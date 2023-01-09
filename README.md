@@ -1,7 +1,7 @@
 # ithowifi
 ESP based WiFi controller itho devices
 
-*(note: I'm in no way a professional hardware/software engineer and have no background in these subjects. I like this for a hobby, to learn and to share my projects)*
+*(note: I forked this from Arjen Hiemstra to be able to make some modifications to make it run better on a HRU300)*
 
 Finished boards can be ordered in my webshop:  
 [https://www.nrgwatch.nl](http://www.nrgwatch.nl)  
