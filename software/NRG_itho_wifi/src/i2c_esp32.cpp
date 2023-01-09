@@ -59,6 +59,10 @@ esp_err_t i2c_master_init(int log_entry_idx)
   {
     E_LOG("i2c_master_init error: %s", esp_err_to_name(result));
   }
+// EZ added
+  else {
+    E_LOG("i2c_master_init ESP_OK");
+  }
 
   return result;
 }
@@ -118,6 +122,8 @@ esp_err_t i2c_master_read_slave(uint8_t addr, uint8_t *data_rd, size_t size, i2c
 
   if (ithoInitResult == -2)
   {
+// EZ added
+    E_LOG("i2c_master_read_slave error ithoInitResult == -2, returning fail");
     return ESP_FAIL;
   }
 
@@ -128,6 +134,8 @@ esp_err_t i2c_master_read_slave(uint8_t addr, uint8_t *data_rd, size_t size, i2c
   if (rc != ESP_OK)
   {
     i2cLogger.i2c_log_final(log_entry_idx, I2CLogger::I2C_ERROR_MASTER_INIT_FAIL);
+// EZ added
+    E_LOG("i2c_master_read_slave error i2c_master_init failed, returning");
     return rc;
   }
 
@@ -170,7 +178,8 @@ bool i2c_sendBytes(const uint8_t *buf, size_t len, i2c_cmdref_t origin)
     esp_err_t rc = i2c_master_send((const char *)buf, len, log_entry_idx);
     if (rc)
     {
-      // D_LOG("Master send: %d", rc);
+// EZ enabled
+      D_LOG("Master send: %d", rc);
       i2cLogger.i2c_log_final(log_entry_idx, I2CLogger::I2C_NOK);
       return false;
     }
@@ -200,7 +209,8 @@ bool i2c_sendCmd(uint8_t addr, const uint8_t *cmd, size_t len, i2c_cmdref_t orig
     esp_err_t rc = i2c_master_send_command(addr, cmd, len, log_entry_idx);
     if (rc)
     {
-      // D_LOG("Master send: %d", rc);
+// EZ enabled
+      D_LOG("Master send: %d", rc);
       i2cLogger.i2c_log_final(log_entry_idx, I2CLogger::I2C_NOK);
       return false;
     }
@@ -303,22 +313,23 @@ bool checkI2Cbus(int log_entry_idx)
   {
     return true;
   }
-  // else
-  // {
-  //   if (!scl_high && !sda_high)
-  //   {
-  //     i2cLogger.i2c_log_err_state(log_entry_idx, I2CLogger::I2C_ERROR_SCL_SDA_LOW);
-  //   }
-  //   else if (!scl_high)
-  //   {
-  //     i2cLogger.i2c_log_err_state(log_entry_idx, I2CLogger::I2C_ERROR_SCL_LOW);
-  //   }
-  //   else
-  //   {
-  //     i2cLogger.i2c_log_err_state(log_entry_idx, I2CLogger::I2C_ERROR_SDA_LOW);
-  //   }
+// EZ uncommented
+  else
+  {
+    if (!scl_high && !sda_high)
+    {
+      i2cLogger.i2c_log_err_state(log_entry_idx, I2CLogger::I2C_ERROR_SCL_SDA_LOW);
+    }
+    else if (!scl_high)
+    {
+      i2cLogger.i2c_log_err_state(log_entry_idx, I2CLogger::I2C_ERROR_SCL_LOW);
+    }
+    else
+    {
+      i2cLogger.i2c_log_err_state(log_entry_idx, I2CLogger::I2C_ERROR_SDA_LOW);
+    }
 
-  // }
+  }
 
   // read I2C pin state as fast as possible and return if both are HIGH for 100uS (about 10 I2C clock periods at 100kHz)
   // Using GPIO.in directly seems to be 3x faster compared to DigitalRead

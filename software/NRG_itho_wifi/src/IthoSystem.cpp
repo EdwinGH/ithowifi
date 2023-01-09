@@ -123,14 +123,12 @@ const struct ihtoDeviceType ithoDevices[]
       {0x00, 0x1D, "CVE-SilentExtPlus", ithoHRU200SettingsMap, sizeof(ithoHRU200SettingsMap) / sizeof(ithoHRU200SettingsMap[0]), ithoHRU200SettingsLabels, ithoHRU200StatusMap, sizeof(ithoHRU200StatusMap) / sizeof(ithoHRU200StatusMap[0]), ithoHRU200StatusLabels},
       {0x00, 0x20, "RF_CO2", nullptr, 0, nullptr, nullptr, 0, nullptr},
       {0x00, 0x2B, "HRU 350", ithoHRU350SettingsMap, sizeof(ithoHRU350SettingsMap) / sizeof(ithoHRU350SettingsMap[0]), ithoHRU350SettingsLabels, ithoHRU350StatusMap, sizeof(ithoHRU350StatusMap) / sizeof(ithoHRU350StatusMap[0]), ithoHRU350StatusLabels},
-  {
-    0x07, 0x01, "HRU 250-300", ithoHRU250_300SettingsMap, sizeof(ithoHRU250_300SettingsMap) / sizeof(ithoHRU250_300SettingsMap[0]), ithoHRU250_300SettingsLabels, ithoHRU250_300StatusMap, sizeof(ithoHRU250_300StatusMap) / sizeof(ithoHRU250_300StatusMap[0]), ithoHRU250_300StatusLabels
-  }
+      {0x07, 0x01, "HRU 250-300", ithoHRU250_300SettingsMap, sizeof(ithoHRU250_300SettingsMap) / sizeof(ithoHRU250_300SettingsMap[0]), ithoHRU250_300SettingsLabels, ithoHRU250_300StatusMap, sizeof(ithoHRU250_300StatusMap) / sizeof(ithoHRU250_300StatusMap[0]), ithoHRU250_300StatusLabels}
 };
 
 const char *getIthoType()
 {
-  static char ithoDeviceType[32] = "Unkown device type";
+  static char ithoDeviceType[32] = "Unknown device type";
 
   const struct ihtoDeviceType *ithoDevicesptr = ithoDevices;
   const struct ihtoDeviceType *ithoDevicesendPtr = ithoDevices + sizeof(ithoDevices) / sizeof(ithoDevices[0]);
@@ -602,7 +600,8 @@ void sendRemoteCmd(const uint8_t remoteIndex, const IthoCommand command)
   i2c_command[i2c_command_len] = checksum(i2c_command, i2c_command_len - 1);
   i2c_command_len++;
 
-#if defined(ENABLE_SERIAL)
+// EZ enabled
+//#if defined(ENABLE_SERIAL)
   String str;
   char buf[250]{};
   for (int i = 0; i < i2c_command_len; i++)
@@ -616,7 +615,7 @@ void sendRemoteCmd(const uint8_t remoteIndex, const IthoCommand command)
   }
   str += "\n";
   D_LOG(str.c_str());
-#endif
+//#endif
 
   i2c_sendBytes(i2c_command, i2c_command_len, I2C_CMD_REMOTE_CMD);
 }

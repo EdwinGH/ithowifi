@@ -19,7 +19,8 @@
 #define I2C_SNIFFER_SDA_PIN GPIO_NUM_1
 #define I2C_SNIFFER_SCL_PIN GPIO_NUM_1
 #define I2C_SNIFFER_RUN_ON_CORE CONFIG_ARDUINO_RUNNING_CORE
-#define I2C_SNIFFER_PRINT_TIMING 0
+//#define I2C_SNIFFER_PRINT_TIMING 0 EZ updated
+#define I2C_SNIFFER_PRINT_TIMING 1
 
 extern gpio_num_t sniffer_sda_pin;
 extern gpio_num_t sniffer_scl_pin;
